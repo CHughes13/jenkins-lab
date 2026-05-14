@@ -1,0 +1,20 @@
+# Start from an official lightweight Python image
+FROM python:3.11-slim
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy requirements first (better for Docker layer caching)
+COPY requirements.txt .
+
+# Install Flask and any other dependencies
+RUN pip install -r requirements.txt
+
+# Copy our app into the container
+COPY app.py .
+
+# Documents that the container uses port 5000 (mapping happens in Jenkinsfile)
+EXPOSE 5000
+
+# Command that runs when the container starts
+CMD ["python", "app.py"]

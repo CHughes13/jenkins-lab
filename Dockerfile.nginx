@@ -1,0 +1,19 @@
+# Start from the official leightweight Nginx image
+# Alpine Linux is a tiny Linux distribution, only a few MB in size.
+# Using it as a base keeps our container image small =  faster builds and less storage used!
+
+FROM nginx:alpine
+
+# Remove the default Nginx configuration file that comes with the image
+# We do this because the default config would conflict with our custom one
+RUN rm /etc/nginx/nginx.conf
+
+# Copy our custom nginx.conf from our repo into the container
+# This replaces the default config we just removed
+# Left side = file on our machine, right side = destination inside container
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Document that the container uses/listens on port 80
+# EXPOSE is documentation only
+# The act of port mapping happens in the Jenkinsfile w/ the -p 80:80 flag when we run the container
+EXPOSE 80
